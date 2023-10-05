@@ -1,4 +1,10 @@
-const fetch = require('node-fetch');
+let fetch;
+
+// 在函数的开始部分或其他适当的地方
+import('node-fetch').then(module => {
+  fetch = module.default;
+});
+
 
 module.exports = async (req, res) => {
   const visitorIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
