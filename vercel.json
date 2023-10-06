@@ -1,0 +1,6 @@
+{
+  "functions": {
+    "api/index/ip.js": { "runtime": "nodejs" },
+    "api/about/index.py": { "runtime": "python" }
+  }
+}
