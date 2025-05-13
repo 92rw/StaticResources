@@ -1,9 +1,4 @@
-let fetch;
-
-// 在函数的开始部分或其他适当的地方
-import('node-fetch').then(module => {
-  fetch = module.default;
-});
+const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
 
 // 计算距离的函数
 function getDistance(e, t, n, o) {
@@ -59,8 +54,9 @@ function setResponse(country, city, lat, lon) {
             posdesc = "带我去你的国家逛逛吧。";
             break;
       } 
-  return distance,location,posdesc;
+  return [distance,location,posdesc];
 }
+
 module.exports = async (req, res) => {
   const visitorIp = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
 
@@ -77,7 +73,7 @@ module.exports = async (req, res) => {
     // 提取一些字段
     const { country, city, lat, lon } = locationData;
 
-    distance,location,posdesc = setResponse(country, city, lat, lon);
+    const [distance, location, posdesc] = setResponse(country, city, lat, lon);
 
     const result = {
       ...locationData,         // 保留原始的全部字段，再追加你自定义的字段
