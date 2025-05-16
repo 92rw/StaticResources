@@ -15,11 +15,12 @@ function getDistance(e, t, n, o) {
   return Math.round(b)
 }
 
-function setResponse(country, city, lat, lon) {
+function setResponse(country, regionName, city, lat, lon) {
       // 根据返回值进行运算
       let distance = getDistance(139.66918, 35.84765, lon, lat);
 
-      let location = country == city ? city : country + " " + city;
+      let area = country == regionName ? country : country + " " + regionName;
+      let location = area == city ? city : area + " " + city;
   
       let posdesc;
       switch (country) {
@@ -66,14 +67,14 @@ module.exports = async (req, res) => {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
   try {
-    const locationResponse = await fetch(`http://ip-api.com/json/${visitorIp}?fields=24785&lang=zh-CN`);
+    const locationResponse = await fetch(`http://ip-api.com/json/${visitorIp}?fields=549081&lang=zh-CN`);
     const locationData = await locationResponse.json();
 
     
     // 提取一些字段
-    const { country, city, lat, lon } = locationData;
+    const { country, regionName, city, lat, lon } = locationData;
 
-    const [distance, location, posdesc] = setResponse(country, city, lat, lon);
+    const [distance, location, posdesc] = setResponse(country, regionName, city, lat, lon);
 
     const result = {
       ...locationData,         // 保留原始的全部字段，再追加你自定义的字段
